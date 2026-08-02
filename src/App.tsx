@@ -229,6 +229,7 @@ export default function App() {
   const [gameMode, setGameMode] = useState<GameMode>("normal");
   const [isFullscreen, setIsFullscreen] = useState(false);
   const [isMuted, setIsMuted] = useState(false);
+  const [showInfo, setShowInfo] = useState(false);
   const [unlockedThemes, setUnlockedThemes] = useState(() => {
     const s = localStorage.getItem("piaf-themes");
     return s ? JSON.parse(s) : [0, 1];
@@ -1053,9 +1054,15 @@ export default function App() {
           <h1 className="text-4xl md:text-5xl font-black text-transparent bg-clip-text bg-gradient-to-r from-amber-400 via-orange-400 to-yellow-300 drop-shadow-lg mb-2">
             🐦 Piaf
           </h1>
-          <p className="text-emerald-300/80 text-sm font-medium tracking-wide mb-8">
+          <p className="text-emerald-300/80 text-sm font-medium tracking-wide mb-1">
             Créé par Hylst - Geoffroy avec l'aide d'une IA
           </p>
+          <button
+            onClick={() => setShowInfo(true)}
+            className="text-white/40 text-xs underline decoration-dotted hover:text-white/70 transition-colors mb-8 cursor-pointer"
+          >
+            ℹ️ Comment ce jeu a été fait
+          </button>
 
           <div className="space-y-4">
             <h2 className="text-white text-xl font-bold mb-4">Choisissez votre difficulté</h2>
@@ -1232,6 +1239,25 @@ export default function App() {
           <span><kbd className="bg-white/10 px-1.5 py-0.5 rounded font-mono">F</kbd> Plein écran</span>
           <span><kbd className="bg-white/10 px-1.5 py-0.5 rounded font-mono">M</kbd> Son</span>
           <span><kbd className="bg-white/10 px-1.5 py-0.5 rounded font-mono">🔄</kbd> Menu</span>
+        </div>
+      )}
+
+      {showInfo && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-sm p-4" onClick={() => setShowInfo(false)}>
+          <div className="w-full max-w-lg max-h-[85vh] overflow-y-auto rounded-3xl bg-slate-900 border border-white/10 shadow-2xl" onClick={(e) => e.stopPropagation()}>
+            <div className="p-6 space-y-3.5 text-sm leading-relaxed text-white/80">
+              <h3 className="text-xl font-black text-transparent bg-clip-text bg-gradient-to-r from-amber-400 via-orange-400 to-yellow-300">Comment ce jeu a été fait</h3>
+              <p><strong className="text-white">Stack :</strong> React 19, TypeScript 5.9, Tailwind CSS 4, Vite 7, compilé en un seul fichier HTML, aucune dépendance chargée depuis l'extérieur.</p>
+              <p><strong className="text-white">Graphismes :</strong> tout est dessiné en Canvas 2D à chaque image (oiseau, tuyaux, décor de thème), aucun sprite ni image externe.</p>
+              <p><strong className="text-white">Musique &amp; sons :</strong> synthétisés en direct avec l'API Web Audio, aucun fichier audio chargé.</p>
+              <p><strong className="text-white">Interactions :</strong> clic, tactile ou espace pour battre des ailes une fois, la gravité fait redescendre l'oiseau entre deux battements.</p>
+              <p><strong className="text-white">Architecture :</strong> une seule boucle de jeu Canvas qui met à jour la physique et redessine chaque image, l'état du jeu (position, tuyaux, pièces) vit dans des références pour éviter les re-rendus React inutiles.</p>
+              <p><strong className="text-white">Algorithmes notables :</strong> l'écart entre les tuyaux se resserre progressivement avec le score plutôt que par palier fixe, jusqu'à un minimum propre à chaque difficulté. 6 thèmes visuels à débloquer en cumulant score et pièces.</p>
+            </div>
+            <div className="border-t border-white/10 p-4 text-center">
+              <button onClick={() => setShowInfo(false)} className="px-6 py-2.5 rounded-xl font-black text-white bg-gradient-to-r from-amber-500 to-orange-500 hover:brightness-110 active:scale-95 transition-all">Fermer</button>
+            </div>
+          </div>
         </div>
       )}
     </div>
