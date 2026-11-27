@@ -70,3 +70,8 @@ l'instrumentation (hash de bundle identique avant/après son ajout puis son retr
   remis à `FLAP_VELOCITY` au contact du sol si bouclier actif), alors qu'il ne protège
   normalement que des tuyaux. Comportement voulu ou effet de bord non documenté nulle
   part dans le jeu : pas tranché, laissé tel quel.
+
+## Audit du 27/11/2026
+
+- [ ] Corriger le déblocage des thèmes : la chaîne `else if` ne libère qu'un palier par partie.
+- [ ] Ajouter un test qui vérifie qu'un score élevé peut débloquer plusieurs thèmes.
